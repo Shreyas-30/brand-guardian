@@ -1,22 +1,54 @@
-# CODING AGENTS: READ THIS FIRST
+# Brand Guardian — AI-Powered Brand Compliance for Canva Teams
 
-This is a **handoff bundle** from Claude Design (claude.ai/design).
+An interactive prototype for an AI compliance layer that scans Canva designs against brand guidelines, flags violations, and offers one-click fixes before approval.
 
-A user mocked up designs in HTML/CSS/JS using an AI design tool, then exported this bundle so a coding agent can implement the designs for real.
+Built as part of the Eulerity Associate Product Manager (AI-First) take-home exercise.
 
-## What you should do — IMPORTANT
+## The Problem
 
-**Read `eulerity-apm/project/Brand Guardian.html` in full.** The user had this file open when they triggered the handoff, so it's almost certainly the primary design they want built. Read it top to bottom — don't skim. Then **follow its imports**: open every file it pulls in (shared components, CSS, scripts) so you understand how the pieces fit together before you start implementing.
+Canva's Brand Intelligence (launched April 16, 2026) ensures AI-generated designs start on brand. But the moment a team member manually edits — swaps a font, pastes an off-brand color, repositions a logo — nothing verifies the design is still compliant. Approval reviewers catch violations manually, spending up to 15 hours/week on brand-policing instead of strategic feedback.
 
-**If anything is ambiguous, ask the user to confirm before you start implementing.** It's much cheaper to clarify scope up front than to build the wrong thing.
+## The Solution
 
-## About the design files
+Brand Guardian is a compliance sidebar inside Canva's editor that:
 
-The design medium is **HTML/CSS/JS** — these are prototypes, not production code. Your job is to **recreate them pixel-perfectly** in whatever technology makes sense for the target codebase (React, Vue, native, whatever fits). Match the visual output; don't copy the prototype's internal structure unless it happens to fit.
+1. **Scans** designs against Brand Kit rules + Canva's Design Model in 3 seconds
+2. **Flags** specific violations (typography, color, logo, layout, voice) with severity and location
+3. **Fixes** issues with one click — swap fonts, correct colors, adjust spacing
+4. **Scores** overall brand compliance (0–100) and attaches a summary to the approval request
 
-**Don't render these files in a browser or take screenshots unless the user asks you to.** Everything you need — dimensions, colors, layout rules — is spelled out in the source. Read the HTML and CSS directly; a screenshot won't tell you anything they don't.
+## Prototype
 
-## Bundle contents
+The prototype demonstrates the core interaction flow across three states:
 
-- `eulerity-apm/README.md` — this file
-- `eulerity-apm/project/` — the `Eulerity APM` project files (HTML prototypes, assets, components)
+- **Pre-scan** — Editor with Brand Guardian sidebar showing Brand Kit summary and "Run Brand Check" CTA
+- **Post-scan** — Violations highlighted on canvas, scored in sidebar with fix buttons
+- **Post-fix** — Score updated, resolved/dismissed issues tracked, approval-ready with compliance badge
+
+### Run locally
+
+```bash
+# Clone and open
+git clone https://github.com/Shreyas-30/brand-guardian.git
+cd brand-guardian
+open index.html
+```
+
+No build step required — open the HTML file directly in a browser.
+
+## Deliverables
+
+| Deliverable             | Link        |
+| ----------------------- | ----------- |
+| Presentation Deck (PDF) | [Link]      |
+| Interactive Prototype   | [This repo] |
+
+## Built With
+
+- HTML / CSS / JS (prototype)
+- Claude Design (initial layout and interaction design)
+- Claude (research, competitive analysis, deck content)
+
+---
+
+Shreyas · Penn Integrated Product Design '26 · April 2026
