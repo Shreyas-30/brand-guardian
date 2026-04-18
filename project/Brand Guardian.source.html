@@ -1,0 +1,2230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Brand Guardian — Studio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    /* Host app: Studio — an original, Canva-category editor. Indigo-violet accent, NOT Canva purple. */
+    --ink-900: #0E1020;
+    --ink-800: #1C1E33;
+    --ink-700: #2A2D47;
+    --ink-600: #464A6B;
+    --ink-500: #6B7091;
+    --ink-400: #9499B5;
+    --ink-300: #C5C8DC;
+    --ink-200: #E4E6F0;
+    --ink-150: #EEF0F7;
+    --ink-100: #F5F6FB;
+    --ink-50:  #FAFBFE;
+    --white:   #FFFFFF;
+
+    --accent: #5B4BE1;      /* Studio accent — indigo-violet */
+    --accent-600: #4B3CC9;
+    --accent-500: #5B4BE1;
+    --accent-200: #D7D2F7;
+    --accent-100: #ECEAFB;
+    --accent-50:  #F5F3FE;
+
+    --ok-600: #1F9D64;
+    --ok-500: #2BB87A;
+    --ok-100: #DFF5E9;
+    --ok-50:  #ECFAF2;
+
+    --warn-600: #C87A0A;
+    --warn-500: #E69413;
+    --warn-100: #FBE8C6;
+    --warn-50:  #FDF5E4;
+
+    --bad-600: #C43144;
+    --bad-500: #E0455A;
+    --bad-100: #FADCDF;
+    --bad-50:  #FDEEF0;
+
+    --shadow-1: 0 1px 2px rgba(14,16,32,0.04), 0 1px 1px rgba(14,16,32,0.03);
+    --shadow-2: 0 4px 12px rgba(14,16,32,0.06), 0 1px 3px rgba(14,16,32,0.04);
+    --shadow-3: 0 12px 32px rgba(14,16,32,0.10), 0 2px 6px rgba(14,16,32,0.05);
+    --shadow-pop: 0 24px 60px rgba(14,16,32,0.18), 0 4px 12px rgba(14,16,32,0.08);
+
+    --radius-sm: 8px;
+    --radius: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+
+    /* Northfield Coffee fake brand */
+    --nf-espresso: #3B2516;
+    --nf-cream:    #F3E7D3;
+    --nf-terracotta: #C2512E;
+    --nf-forest:   #2E5D3E;
+    --nf-butter:   #E9C46A;
+    --nf-paper:    #FAF4E8;
+  }
+
+  * { box-sizing: border-box; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--ink-200); border-radius: 10px; border: 2px solid var(--white); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--ink-300); }
+  .canvas-area::-webkit-scrollbar-thumb { border-color: transparent; background: rgba(14,16,32,0.12); }
+  .canvas-area::-webkit-scrollbar-thumb:hover { background: rgba(14,16,32,0.22); }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--ink-100);
+    color: var(--ink-900);
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+  }
+
+  .app {
+    position: fixed; inset: 0;
+    display: grid;
+    grid-template-rows: 56px 1fr;
+    background: var(--ink-100);
+  }
+
+  /* ---------- Top bar ---------- */
+  .topbar {
+    display: grid;
+    grid-template-columns: minmax(420px, auto) 1fr minmax(280px, auto);
+    align-items: center;
+    padding: 0 16px;
+    background: var(--white);
+    border-bottom: 1px solid var(--ink-200);
+    z-index: 20;
+  }
+  .topbar-left { display: flex; align-items: center; gap: 14px; min-width: 0; }
+  .logo-mark {
+    width: 32px; height: 32px;
+    border-radius: 9px;
+    background: linear-gradient(135deg, var(--accent) 0%, #7A6CEE 100%);
+    display: grid; place-items: center;
+    color: white; font-weight: 800; font-size: 15px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    letter-spacing: -0.02em;
+    flex: none;
+    box-shadow: 0 2px 6px rgba(91,75,225,0.25);
+  }
+  .doc-title {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 13px; color: var(--ink-700); font-weight: 500;
+    white-space: nowrap;
+    min-width: 0;
+  }
+  .doc-title .sep { color: var(--ink-300); flex: none; }
+  .doc-title .file {
+    padding: 4px 8px; border-radius: 6px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .doc-title .file:hover { background: var(--ink-100); }
+
+  .topbar-center {
+    display: flex; justify-content: center; gap: 4px;
+  }
+  .tb-btn {
+    height: 32px; padding: 0 10px;
+    display: inline-flex; align-items: center; gap: 6px;
+    background: transparent; border: 0;
+    border-radius: 8px;
+    font: inherit; font-size: 13px; color: var(--ink-600);
+    cursor: pointer;
+  }
+  .tb-btn:hover { background: var(--ink-100); color: var(--ink-900); }
+  .tb-btn.active { background: var(--ink-150); color: var(--ink-900); }
+  .tb-divider { width: 1px; height: 20px; background: var(--ink-200); margin: 0 6px; align-self: center; }
+
+  .topbar-right {
+    display: flex; align-items: center; justify-content: flex-end; gap: 8px;
+  }
+  .avatar-stack { display: flex; }
+  .avatar {
+    width: 28px; height: 28px; border-radius: 50%;
+    border: 2px solid var(--white);
+    background: var(--accent-200);
+    display: grid; place-items: center;
+    font-size: 11px; font-weight: 600; color: var(--accent-600);
+    margin-left: -6px;
+  }
+  .avatar:first-child { margin-left: 0; }
+  .avatar.a2 { background: #FFD8CA; color: #B94A20; }
+  .avatar.a3 { background: #D4EFE0; color: #1F7A4A; }
+
+  .btn {
+    height: 32px; padding: 0 14px;
+    display: inline-flex; align-items: center; gap: 6px;
+    border: 1px solid var(--ink-200);
+    background: var(--white);
+    border-radius: 8px;
+    font: inherit; font-size: 13px; font-weight: 500;
+    color: var(--ink-800);
+    cursor: pointer; transition: background 120ms;
+  }
+  .btn:hover { background: var(--ink-100); }
+  .btn.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+    font-weight: 600;
+  }
+  .btn.primary:hover { background: var(--accent-600); }
+  .btn.ok {
+    background: var(--ok-500); border-color: var(--ok-500); color: white; font-weight: 600;
+  }
+  .btn.ok:hover { background: var(--ok-600); }
+  .btn.ghost { background: transparent; border-color: transparent; }
+  .btn.ghost:hover { background: var(--ink-100); }
+
+  /* ---------- Main layout ---------- */
+  .main {
+    display: grid;
+    grid-template-columns: 64px 260px 1fr var(--sidebar-w, 380px);
+    min-height: 0;
+    position: relative;
+  }
+  .main.sidebar-collapsed {
+    grid-template-columns: 64px 260px 1fr 36px;
+  }
+
+  /* Secondary panel column (Text / Brand content) */
+  .panel2 {
+    grid-row: 1 / 2;
+    background: var(--white);
+    border-right: 1px solid var(--ink-200);
+    overflow-y: auto;
+    padding: 18px 16px;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .panel2 h3 {
+    margin: 0; font-size: 13.5px; font-weight: 700;
+    font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -0.01em;
+  }
+  .panel2 .p2-search {
+    position: relative;
+  }
+  .panel2 .p2-search input {
+    width: 100%; height: 34px;
+    border: 1px solid var(--ink-200);
+    border-radius: 8px;
+    padding: 0 10px 0 32px;
+    font: inherit; font-size: 12.5px;
+    background: var(--ink-50);
+  }
+  .panel2 .p2-search input:focus { outline: none; border-color: var(--accent); background: var(--white); }
+  .panel2 .p2-search svg {
+    position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+    width: 14px; height: 14px; color: var(--ink-400);
+  }
+  .p2-group-title {
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--ink-500);
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 4px;
+  }
+  .p2-group-title a { font-size: 11px; color: var(--accent); text-transform: none; font-weight: 600; text-decoration: none; letter-spacing: 0; }
+  .p2-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .p2-chip {
+    padding: 6px 10px; border-radius: 7px;
+    background: var(--ink-100); color: var(--ink-700);
+    font-size: 12px; cursor: pointer;
+    border: 1px solid transparent;
+  }
+  .p2-chip:hover { background: var(--ink-150); }
+  .p2-chip.active { background: var(--accent-50); color: var(--accent-600); border-color: var(--accent-200); }
+  .p2-samples { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .p2-sample {
+    background: var(--ink-50);
+    border: 1px solid var(--ink-200);
+    border-radius: 8px;
+    padding: 12px 10px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 120ms;
+  }
+  .p2-sample:hover { border-color: var(--accent); transform: translateY(-1px); box-shadow: var(--shadow-1); }
+  .p2-sample .s1 { font-family:'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 15px; color: var(--ink-900); line-height: 1; letter-spacing: -0.02em; }
+  .p2-sample .s2 { font-size: 9.5px; color: var(--ink-500); margin-top: 6px; letter-spacing: 0.04em; text-transform: uppercase; font-weight: 600; }
+
+  /* Status bar beneath canvas/panels */
+  .statusbar {
+    grid-column: 1 / -1;
+    grid-row: 2 / 3;
+    background: var(--white);
+    border-top: 1px solid var(--ink-200);
+    display: flex; align-items: center;
+    padding: 0 12px; gap: 10px;
+    font-size: 12px; color: var(--ink-600);
+  }
+  .sb-left { display: flex; align-items: center; gap: 8px; }
+  .sb-pages { display: flex; gap: 6px; align-items: center; }
+  .sb-page-thumb {
+    width: 34px; height: 22px;
+    border-radius: 4px;
+    background: var(--ink-100);
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .sb-page-thumb.active { border-color: var(--accent); }
+  .sb-page-thumb.p1 { background-image: linear-gradient(135deg, #1a3a38 0%, #2a1810 100%); }
+  .sb-page-thumb.p1::after { content:''; position:absolute; inset: 3px 3px 6px 3px; background: var(--nf-cream); border-radius: 1px; opacity: 0.9; }
+  .sb-page-thumb.p2 { background: var(--nf-cream); }
+  .sb-page-thumb.p2::after { content:''; position:absolute; inset: 4px 5px; background: var(--nf-espresso); border-radius:1px; opacity:0.7; }
+  .sb-btn {
+    height: 28px; padding: 0 8px;
+    border: 0; background: transparent;
+    border-radius: 6px;
+    color: var(--ink-600);
+    cursor: pointer;
+    display: inline-flex; align-items: center; gap: 5px;
+    font: inherit; font-size: 12px;
+  }
+  .sb-btn:hover { background: var(--ink-100); color: var(--ink-900); }
+  .sb-btn svg { width: 13px; height: 13px; }
+  .sb-center { flex: 1; display: flex; justify-content: center; gap: 8px; align-items: center; color: var(--ink-500); }
+  .sb-right { display: flex; align-items: center; gap: 2px; }
+  .sb-divider { width: 1px; height: 18px; background: var(--ink-200); margin: 0 4px; }
+  .sb-zoom { display: inline-flex; align-items: center; gap: 2px; }
+  .sb-zoom .zoom-val { padding: 0 8px; font-variant-numeric: tabular-nums; font-weight: 500; color: var(--ink-700); min-width: 42px; text-align: center; }
+
+  /* Sidebar collapse handle */
+  .sidebar-collapse {
+    position: absolute;
+    left: -14px; top: 64px;
+    width: 28px; height: 28px;
+    background: var(--white);
+    border: 1px solid var(--ink-200);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    cursor: pointer;
+    color: var(--ink-500);
+    box-shadow: var(--shadow-1);
+    z-index: 5;
+    transition: background 120ms;
+  }
+  .sidebar-collapse:hover { background: var(--ink-100); color: var(--ink-900); }
+  .sidebar-collapse svg { width: 14px; height: 14px; transition: transform 200ms; }
+  .main.sidebar-collapsed .sidebar-collapse svg { transform: rotate(180deg); }
+  .main.sidebar-collapsed .sidebar-tabs,
+  .main.sidebar-collapsed .sidebar-body,
+  .main.sidebar-collapsed .sidebar-footer { display: none !important; }
+  .main.sidebar-collapsed .sidebar {
+    overflow: visible;
+  }
+
+  /* Left tool rail */
+  .rail {
+    background: var(--white);
+    border-right: 1px solid var(--ink-200);
+    padding: 12px 8px;
+    display: flex; flex-direction: column; gap: 4px;
+    align-items: center;
+  }
+  .rail-btn {
+    width: 48px; height: 52px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 4px;
+    border: 0; background: transparent;
+    border-radius: 10px;
+    color: var(--ink-500);
+    cursor: pointer;
+    font: inherit; font-size: 10px; font-weight: 500;
+  }
+  .rail-btn svg { width: 20px; height: 20px; }
+  .rail-btn:hover { background: var(--ink-100); color: var(--ink-800); }
+  .rail-btn.active { background: var(--accent-100); color: var(--accent-600); }
+
+  /* Canvas area */
+  .canvas-area {
+    position: relative;
+    overflow: auto;
+    background:
+      radial-gradient(circle at 1px 1px, var(--ink-200) 1px, transparent 0);
+    background-size: 24px 24px;
+    background-color: var(--ink-100);
+    display: flex; align-items: center; justify-content: center;
+    padding: 32px;
+  }
+  .canvas-chrome {
+    display: flex; flex-direction: column; gap: 10px;
+    align-items: center;
+  }
+  .canvas-meta {
+    display: flex; gap: 10px; align-items: center;
+    font-size: 12px; color: var(--ink-500);
+  }
+  .canvas-meta .pill {
+    padding: 4px 10px; background: var(--white);
+    border: 1px solid var(--ink-200);
+    border-radius: 999px; font-weight: 500;
+  }
+
+  /* The actual Northfield Coffee post — 1080x1350 Instagram portrait, scaled */
+  .canvas-wrap {
+    position: relative;
+    filter: drop-shadow(0 20px 40px rgba(14,16,32,0.10)) drop-shadow(0 6px 12px rgba(14,16,32,0.05));
+  }
+  .canvas-scale {
+    transform-origin: center;
+    transform: scale(var(--canvas-scale, 0.52));
+  }
+  .post {
+    position: relative;
+    width: 1080px;
+    height: 1350px;
+    background: var(--nf-paper);
+    overflow: hidden;
+    border-radius: 2px;
+  }
+
+  /* Post content */
+  .post-bg-photo {
+    position: absolute; inset: 0;
+    background-color: #1a2e2a;
+    background-image: url('assets/ethiopian_yirgacheffe_coffee.jpg');
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+  }
+  /* Darken overlay so cream panel + logo still read well */
+  .post-bg-photo::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, rgba(30,15,6,0.25) 0%, rgba(30,15,6,0.05) 40%, rgba(30,15,6,0.45) 100%);
+  }
+  .post-bg-photo::after {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 20% 12%, rgba(0,0,0,0.25) 0%, transparent 55%);
+  }
+
+  /* Cream panel: lower third of poster, with room above for photo and below for footer */
+  .post-panel {
+    position: absolute;
+    left: 72px; right: 72px;
+    top: 720px;
+    height: 480px;
+    background: var(--nf-cream);
+    border-radius: 10px;
+    padding: 56px 64px;
+    display: flex; flex-direction: column; gap: 24px;
+    justify-content: center;
+    box-shadow: 0 20px 48px rgba(0,0,0,0.35);
+  }
+  .post-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 20px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--nf-terracotta);
+    font-weight: 500;
+  }
+  .post-heading {
+    /* VIOLATION: Roboto (wrong — should be "Northfield Display") */
+    font-family: 'Roboto', sans-serif;
+    font-weight: 900;
+    font-size: 72px;
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+    color: var(--nf-espresso);
+    margin: 0;
+    transition: all 400ms ease;
+  }
+  .post-heading.fixed {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+  .post-subheading {
+    /* VIOLATION: off-brand blue — should be espresso */
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 1.4;
+    color: #3B82F6;
+    margin: 0;
+    max-width: 820px;
+    transition: color 400ms ease;
+  }
+  .post-subheading.fixed {
+    color: var(--nf-espresso);
+  }
+
+  /* Logo plate in top-left — deliberately on dark busy area, cramped */
+  .post-logo {
+    position: absolute;
+    top: 56px; left: 56px;
+    display: inline-flex; align-items: center; gap: 10px;
+    color: var(--nf-paper);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800;
+    font-size: 28px;
+    letter-spacing: -0.01em;
+    transition: all 400ms ease;
+  }
+  .post-logo.fixed {
+    background: rgba(250,244,232,0.96);
+    color: var(--nf-espresso);
+    padding: 16px 22px;
+    border-radius: 10px;
+    top: 40px; left: 40px;
+  }
+  .post-logo .logo-mark-nf {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--nf-butter);
+    display: grid; place-items: center;
+    color: var(--nf-espresso);
+    font-weight: 900;
+    font-size: 20px;
+    flex: none;
+  }
+
+  /* Bottom row */
+  .post-footer {
+    position: absolute;
+    left: 72px; right: 72px;
+    bottom: 40px;
+    display: flex; justify-content: space-between; align-items: center;
+    color: var(--nf-paper);
+    opacity: 0.9;
+  }
+  .post-footer .handle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+  }
+  .post-footer .date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+  }
+
+  /* Violation overlays */
+  .violation-overlay {
+    position: absolute;
+    border: 3px solid var(--warn-500);
+    border-radius: 6px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 250ms;
+    box-shadow: 0 0 0 3px rgba(230,148,19,0.15);
+  }
+  .violation-overlay.severe {
+    border-color: var(--bad-500);
+    box-shadow: 0 0 0 3px rgba(224,69,90,0.15);
+  }
+  .violation-overlay.visible { opacity: 1; }
+  .violation-overlay.pulsing { animation: pulse-outline 1.8s ease-in-out infinite; }
+  @keyframes pulse-outline {
+    0%, 100% { box-shadow: 0 0 0 3px rgba(230,148,19,0.15); }
+    50% { box-shadow: 0 0 0 10px rgba(230,148,19,0.0); }
+  }
+  .violation-overlay.severe.pulsing {
+    animation-name: pulse-outline-severe;
+  }
+  @keyframes pulse-outline-severe {
+    0%, 100% { box-shadow: 0 0 0 3px rgba(224,69,90,0.18); }
+    50% { box-shadow: 0 0 0 12px rgba(224,69,90,0.0); }
+  }
+  .violation-badge {
+    position: absolute;
+    top: -12px; left: -12px;
+    width: 28px; height: 28px;
+    background: var(--warn-500);
+    color: white;
+    border-radius: 50%;
+    display: grid; place-items: center;
+    font-weight: 700;
+    font-size: 14px;
+    border: 2px solid var(--white);
+    box-shadow: var(--shadow-2);
+  }
+  .violation-overlay.severe .violation-badge { background: var(--bad-500); }
+
+  /* Scan sweep */
+  .scan-sweep {
+    position: absolute; left: 0; right: 0;
+    height: 140px;
+    top: -140px;
+    background: linear-gradient(
+      180deg,
+      rgba(91,75,225,0) 0%,
+      rgba(91,75,225,0.08) 40%,
+      rgba(91,75,225,0.22) 50%,
+      rgba(91,75,225,0.08) 60%,
+      rgba(91,75,225,0) 100%
+    );
+    pointer-events: none;
+    opacity: 0;
+  }
+  .scan-sweep::after {
+    content: ''; position: absolute;
+    left: 0; right: 0; top: 50%;
+    height: 2px;
+    background: var(--accent);
+    box-shadow: 0 0 20px 4px rgba(91,75,225,0.5);
+  }
+  .scanning .scan-sweep {
+    opacity: 1;
+    animation: sweep 1.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  }
+  @keyframes sweep {
+    0%   { top: -140px; }
+    100% { top: 1350px; }
+  }
+
+  /* ---------- Right sidebar ---------- */
+  .sidebar {
+    background: var(--white);
+    border-left: 1px solid var(--ink-200);
+    display: flex; flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .sidebar-tabs {
+    display: flex; gap: 2px;
+    padding: 8px 12px 0;
+    border-bottom: 1px solid var(--ink-200);
+  }
+  .sb-tab {
+    padding: 10px 12px;
+    font-size: 13px; font-weight: 500; color: var(--ink-500);
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    cursor: pointer;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .sb-tab svg { width: 14px; height: 14px; }
+  .sb-tab:hover { color: var(--ink-800); }
+  .sb-tab.active {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  .sb-tab .pip {
+    background: var(--bad-500); color: white;
+    font-size: 10px; font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 999px;
+    min-width: 16px; text-align: center;
+  }
+
+  .sidebar-body {
+    flex: 1; min-height: 0; overflow-y: auto;
+    padding: 20px;
+  }
+
+  /* Brand kit summary */
+  .kit-card {
+    border: 1px solid var(--ink-200);
+    border-radius: var(--radius);
+    padding: 14px;
+    margin-bottom: 16px;
+    background: var(--ink-50);
+  }
+  .kit-card h4 {
+    margin: 0 0 10px;
+    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-500); font-weight: 600;
+  }
+  .kit-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 12px; color: var(--ink-700); }
+  .kit-row + .kit-row { margin-top: 10px; }
+  .kit-swatches { display: flex; gap: 6px; }
+  .kit-swatch {
+    width: 20px; height: 20px; border-radius: 6px;
+    border: 1px solid rgba(14,16,32,0.08);
+  }
+  .kit-fonts { font-family: 'Inter', sans-serif; }
+  .kit-logo {
+    width: 28px; height: 28px; border-radius: 6px;
+    background: var(--nf-espresso);
+    display: grid; place-items: center;
+    color: var(--nf-butter);
+    font-family: 'Plus Jakarta Sans';
+    font-weight: 800; font-size: 12px;
+  }
+
+  /* Brand Guardian panel header */
+  .bg-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 14px;
+  }
+  .bg-shield {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: var(--accent-100);
+    display: grid; place-items: center;
+    color: var(--accent);
+  }
+  .bg-shield svg { width: 20px; height: 20px; }
+  .bg-title {
+    font-size: 15px; font-weight: 700; color: var(--ink-900); letter-spacing: -0.01em;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .bg-subtitle {
+    font-size: 12px; color: var(--ink-500);
+    margin-top: 1px;
+  }
+
+  /* Pre-scan CTA */
+  .run-card {
+    background: linear-gradient(180deg, var(--accent-50) 0%, #fff 100%);
+    border: 1px solid var(--accent-200);
+    border-radius: var(--radius-lg);
+    padding: 22px 18px 20px;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  .run-card .big-shield {
+    width: 56px; height: 56px;
+    margin: 0 auto 12px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--accent) 0%, #7A6CEE 100%);
+    display: grid; place-items: center;
+    color: white;
+    box-shadow: 0 8px 20px rgba(91,75,225,0.25);
+  }
+  .run-card .big-shield svg { width: 28px; height: 28px; }
+  .run-card h3 {
+    margin: 0 0 6px;
+    font-size: 16px; font-weight: 700;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    letter-spacing: -0.01em;
+  }
+  .run-card p {
+    margin: 0 0 16px;
+    font-size: 12.5px; color: var(--ink-500); line-height: 1.5;
+  }
+  .run-btn {
+    width: 100%;
+    height: 40px;
+    background: var(--accent);
+    color: white;
+    border: 0;
+    border-radius: 10px;
+    font: inherit; font-weight: 600; font-size: 13.5px;
+    cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    transition: background 120ms;
+  }
+  .run-btn:hover { background: var(--accent-600); }
+  .run-btn:disabled { opacity: 0.75; cursor: default; }
+
+  /* Scanning state inside run card */
+  .scan-progress {
+    height: 6px; border-radius: 999px; background: var(--accent-100);
+    overflow: hidden; margin-top: 14px;
+  }
+  .scan-progress-bar {
+    height: 100%; width: 0; background: var(--accent);
+    transition: width 1.5s linear;
+  }
+  .scan-step {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--accent-600);
+    margin-top: 10px; text-align: left;
+    min-height: 16px;
+  }
+
+  /* Score display */
+  .score-block {
+    display: flex; gap: 18px; align-items: center;
+    padding: 8px 4px 18px;
+    border-bottom: 1px solid var(--ink-200);
+    margin-bottom: 18px;
+  }
+  .score-ring-wrap {
+    position: relative;
+    width: 92px; height: 92px;
+    flex: none;
+  }
+  .score-ring {
+    transform: rotate(-90deg);
+  }
+  .score-ring circle.track { fill: none; stroke: var(--ink-150); stroke-width: 8; }
+  .score-ring circle.bar   { fill: none; stroke-width: 8; stroke-linecap: round;
+    transition: stroke-dashoffset 900ms cubic-bezier(.22,.61,.36,1), stroke 300ms; }
+  .score-num {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .score-num .n {
+    font-size: 26px; line-height: 1;
+    color: var(--ink-900);
+  }
+  .score-num .d {
+    font-size: 10px; color: var(--ink-500); font-weight: 600; margin-top: 2px;
+  }
+  .score-text {
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .score-label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--ink-500); font-weight: 600;
+  }
+  .score-headline {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 17px; font-weight: 700;
+    letter-spacing: -0.01em; color: var(--ink-900);
+  }
+  .score-sub { font-size: 12px; color: var(--ink-500); }
+
+  /* Filters row */
+  .filter-row {
+    display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap;
+  }
+  .chip {
+    padding: 5px 10px; font-size: 12px;
+    border-radius: 999px;
+    background: var(--ink-100); color: var(--ink-600);
+    display: inline-flex; align-items: center; gap: 6px;
+    border: 1px solid transparent;
+    cursor: pointer;
+  }
+  .chip.active { background: var(--white); color: var(--ink-900); border-color: var(--ink-300); font-weight: 500; }
+  .chip .dot { width: 6px; height: 6px; border-radius: 50%; }
+  .chip .dot.warn { background: var(--warn-500); }
+  .chip .dot.bad { background: var(--bad-500); }
+
+  /* Violation cards */
+  .violations { display: flex; flex-direction: column; gap: 10px; }
+  .v-card {
+    border: 1px solid var(--ink-200);
+    border-radius: var(--radius);
+    background: var(--white);
+    overflow: hidden;
+    transition: all 180ms;
+  }
+  .v-card:hover { border-color: var(--ink-300); box-shadow: var(--shadow-1); }
+  .v-card.active { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-100); }
+
+  .v-head {
+    padding: 12px 14px 10px;
+    display: flex; gap: 12px; align-items: flex-start;
+    cursor: pointer;
+  }
+  .v-icon {
+    width: 30px; height: 30px; border-radius: 8px;
+    display: grid; place-items: center;
+    flex: none;
+  }
+  .v-icon svg { width: 16px; height: 16px; }
+  .v-icon.warn { background: var(--warn-100); color: var(--warn-600); }
+  .v-icon.bad { background: var(--bad-100); color: var(--bad-600); }
+  .v-icon.ok { background: var(--ok-100); color: var(--ok-600); }
+  .v-icon.skip { background: var(--ink-150); color: var(--ink-500); }
+
+  .v-body { flex: 1; min-width: 0; }
+  .v-top { display: flex; align-items: center; gap: 8px; }
+  .v-kind {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--ink-500); font-weight: 600;
+  }
+  .v-sev {
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 2px 7px; border-radius: 4px;
+  }
+  .v-sev.warn { background: var(--warn-100); color: var(--warn-600); }
+  .v-sev.bad { background: var(--bad-100); color: var(--bad-600); }
+  .v-sev.ok { background: var(--ok-100); color: var(--ok-600); }
+  .v-sev.skip { background: var(--ink-150); color: var(--ink-500); }
+
+  .v-title {
+    margin: 4px 0 2px;
+    font-size: 13.5px; font-weight: 600; color: var(--ink-900);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    letter-spacing: -0.005em;
+  }
+  .v-desc {
+    font-size: 12px; color: var(--ink-500); line-height: 1.45;
+  }
+  .v-desc code {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--ink-100);
+    color: var(--ink-800);
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 11px;
+  }
+  .v-eye {
+    flex: none;
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    border: 0; background: transparent;
+    color: var(--ink-500);
+    display: grid; place-items: center;
+    cursor: pointer;
+  }
+  .v-eye:hover { background: var(--ink-100); color: var(--ink-800); }
+  .v-eye svg { width: 15px; height: 15px; }
+
+  .v-actions {
+    display: flex; gap: 6px;
+    padding: 0 14px 12px;
+  }
+  .v-actions .btn { height: 30px; font-size: 12.5px; padding: 0 12px; }
+  .v-actions .btn.primary { background: var(--accent); }
+  .v-actions .btn.ghost { color: var(--ink-600); }
+
+  /* Diff preview */
+  .diff-card {
+    border: 1px solid var(--accent-200);
+    background: var(--accent-50);
+    border-radius: var(--radius);
+    padding: 12px;
+    margin: 0 14px 12px;
+  }
+  .diff-title {
+    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--accent-600); font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .diff-grid {
+    display: grid; grid-template-columns: 1fr auto 1fr;
+    gap: 8px; align-items: stretch;
+  }
+  .diff-side {
+    background: white;
+    border: 1px solid var(--ink-200);
+    border-radius: 8px;
+    padding: 10px;
+    min-height: 62px;
+    display: flex; flex-direction: column; justify-content: center;
+    font-size: 12px;
+  }
+  .diff-side .lbl {
+    font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.08em;
+    font-weight: 700; color: var(--ink-500);
+    margin-bottom: 4px;
+  }
+  .diff-arrow {
+    align-self: center;
+    color: var(--accent);
+    display: grid; place-items: center;
+  }
+  .diff-sample {
+    font-weight: 700;
+    color: var(--ink-900);
+  }
+  .diff-color-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+  }
+  .diff-color-chip .sw { width: 14px; height: 14px; border-radius: 3px; border: 1px solid rgba(0,0,0,0.1); }
+
+  /* Collapsed card (after fix / skip) */
+  .v-card.collapsed .v-actions { display: none; }
+  .v-card.collapsed .v-desc { display: none; }
+  .v-card.collapsed .v-head { padding: 12px 14px; }
+
+  /* Footer CTA */
+  .sidebar-footer {
+    padding: 16px 20px 20px;
+    border-top: 1px solid var(--ink-200);
+    background: var(--white);
+  }
+  .footer-submit {
+    width: 100%; height: 44px;
+    background: var(--ok-500);
+    color: white;
+    border: 0;
+    border-radius: 10px;
+    font: inherit; font-weight: 600; font-size: 14px;
+    cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    transition: background 120ms;
+    box-shadow: 0 8px 20px rgba(43,184,122,0.20);
+  }
+  .footer-submit:hover { background: var(--ok-600); }
+  .footer-submit.disabled {
+    background: var(--ink-200); color: var(--ink-500); cursor: not-allowed; box-shadow: none;
+  }
+  .approver-preview {
+    margin-top: 12px;
+    font-size: 11.5px; color: var(--ink-500);
+    display: flex; align-items: center; gap: 8px;
+    background: var(--ink-50);
+    border: 1px dashed var(--ink-300);
+    padding: 8px 12px;
+    border-radius: 8px;
+    line-height: 1.3;
+  }
+  .approver-preview .mini-shield {
+    width: 20px; height: 20px; border-radius: 5px;
+    background: var(--ok-500);
+    color: white;
+    display: grid; place-items: center; flex: none;
+  }
+  .approver-preview .mini-shield svg { width: 11px; height: 11px; }
+
+  /* Toast */
+  .toast-wrap {
+    position: fixed; right: 24px; bottom: 24px;
+    z-index: 100;
+    pointer-events: none;
+  }
+  .toast {
+    background: var(--ink-900);
+    color: var(--white);
+    padding: 14px 18px 14px 14px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-pop);
+    display: flex; align-items: center; gap: 12px;
+    max-width: 360px;
+    transform: translateY(30px);
+    opacity: 0;
+    transition: all 260ms cubic-bezier(.22,.61,.36,1);
+  }
+  .toast.visible { transform: translateY(0); opacity: 1; }
+  .toast-icon {
+    width: 36px; height: 36px; flex: none;
+    border-radius: 10px; background: var(--ok-500);
+    display: grid; place-items: center;
+    color: white;
+  }
+  .toast-text .tt-title { font-weight: 600; font-size: 13.5px; }
+  .toast-text .tt-sub { font-size: 12px; color: var(--ink-300); margin-top: 2px; }
+
+  /* Tweaks */
+  .tweaks {
+    position: fixed; right: 20px; top: 76px;
+    width: 260px;
+    background: var(--white);
+    border: 1px solid var(--ink-200);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-3);
+    padding: 14px;
+    z-index: 50;
+    display: none;
+  }
+  .tweaks.visible { display: block; }
+  .tweaks h4 {
+    margin: 0 0 10px;
+    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-500); font-weight: 700;
+  }
+  .tweak-row {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 10px; padding: 8px 0;
+    border-top: 1px solid var(--ink-150);
+    font-size: 12px; color: var(--ink-700);
+  }
+  .tweak-row:first-of-type { border-top: 0; }
+  .tweak-row label { color: var(--ink-600); }
+  .tweak-swatches { display: flex; gap: 4px; }
+  .tw-sw {
+    width: 18px; height: 18px; border-radius: 6px;
+    cursor: pointer;
+    border: 2px solid transparent;
+  }
+  .tw-sw.active { border-color: var(--ink-900); }
+  .tweak-row select, .tweak-row input[type="range"] {
+    font: inherit; font-size: 12px;
+    border: 1px solid var(--ink-200);
+    border-radius: 6px;
+    padding: 4px 6px;
+    background: var(--white);
+  }
+
+  /* Misc */
+  .hidden { display: none !important; }
+  .only-scanned { display: none; }
+  .state-scanned .only-scanned { display: block; }
+  .state-scanned .only-prescan { display: none; }
+
+  /* Sidebar collapsed state (screen 1: smaller, just CTA) */
+  .state-prescan .post-scan-body { display: none; }
+  .state-scanning .post-scan-body { display: none; }
+  .state-scanning .run-card,
+  .state-scanned .run-card,
+  .state-approved .run-card { display: none; }
+
+  .post-scan-body { }
+  .state-scanned .post-scan-body,
+  .state-approved .post-scan-body { display: block; }
+
+  .sidebar-footer { display: none; }
+  .state-scanned .sidebar-footer,
+  .state-approved .sidebar-footer { display: flex; flex-direction: column; }
+
+  /* Approved state styling */
+  .state-approved .footer-submit { display: none; }
+  .state-approved .submitted-state { display: flex; }
+  .submitted-state { display: none; flex-direction: column; gap: 10px; }
+  .submitted-state .stamp {
+    padding: 12px;
+    border-radius: 10px;
+    background: var(--ok-50);
+    border: 1px solid var(--ok-100);
+    display: flex; gap: 12px; align-items: center;
+  }
+  .submitted-state .stamp-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: var(--ok-500); color: white;
+    display: grid; place-items: center; flex: none;
+  }
+  .submitted-state .stamp-text .t1 { font-weight: 600; font-size: 13px; color: var(--ok-600); }
+  .submitted-state .stamp-text .t2 { font-size: 11.5px; color: var(--ink-600); margin-top: 2px; }
+
+  /* Tab reveal for scanned state */
+  .sb-tab .pip { display: none; }
+  .state-scanned .sb-tab.bg-tab .pip,
+  .has-issues .sb-tab.bg-tab .pip { display: inline-block; }
+
+  /* Canvas interaction */
+  .canvas-element-highlight {
+    animation: cel-flash 900ms ease;
+  }
+  @keyframes cel-flash {
+    0% { box-shadow: 0 0 0 0 rgba(91,75,225,0); }
+    30% { box-shadow: 0 0 0 6px rgba(91,75,225,0.3); }
+    100% { box-shadow: 0 0 0 0 rgba(91,75,225,0); }
+  }
+
+  /* Zoom chip in bottom right */
+  .canvas-zoom {
+    position: absolute;
+    bottom: 16px; right: 16px;
+    background: var(--white);
+    border: 1px solid var(--ink-200);
+    border-radius: 8px;
+    padding: 4px;
+    display: flex; align-items: center; gap: 2px;
+    box-shadow: var(--shadow-1);
+  }
+  .canvas-zoom button {
+    width: 24px; height: 24px;
+    border: 0; background: transparent;
+    border-radius: 5px;
+    color: var(--ink-600);
+    cursor: pointer;
+    display: grid; place-items: center;
+  }
+  .canvas-zoom button:hover { background: var(--ink-100); color: var(--ink-900); }
+  .canvas-zoom .zoom-val {
+    font-size: 12px; color: var(--ink-700); font-variant-numeric: tabular-nums;
+    padding: 0 6px; font-weight: 500;
+  }
+
+  /* Layer panel floater */
+  .floater-note {
+    position: absolute;
+    background: var(--ink-900); color: white;
+    padding: 6px 10px; border-radius: 6px;
+    font-size: 11px;
+    top: -32px; left: 0;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: all 180ms;
+  }
+  .scanning-banner {
+    position: absolute;
+    top: 20px; left: 50%; transform: translateX(-50%);
+    background: var(--ink-900); color: white;
+    padding: 10px 16px;
+    border-radius: 999px;
+    font-size: 12.5px; font-weight: 500;
+    display: inline-flex; align-items: center; gap: 10px;
+    box-shadow: var(--shadow-3);
+    opacity: 0;
+    transition: opacity 200ms;
+    z-index: 10;
+  }
+  .scanning-banner.visible { opacity: 1; }
+  .scanning-banner .spinner {
+    width: 14px; height: 14px;
+    border: 2px solid rgba(255,255,255,0.2);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.9s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body class="state-prescan">
+
+<!-- Tweak defaults -->
+<script>
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "accent": "#5B4BE1",
+    "sidebarWidth": 390,
+    "ringSize": 72,
+    "severityScheme": "default"
+  }/*EDITMODE-END*/;
+</script>
+
+<div class="app" id="app">
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="logo-mark">S</div>
+      <div class="doc-title">
+        <span class="file">Northfield Coffee</span>
+        <span class="sep">/</span>
+        <span class="file">Spring Launch</span>
+        <span class="sep">/</span>
+        <span class="file" style="font-weight:600;color:var(--ink-900)">Instagram post</span>
+      </div>
+    </div>
+
+    <div class="topbar-center">
+      <button class="tb-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0Z"/><path d="M9 10h.01M15 10h.01M8 15s1.5 2 4 2 4-2 4-2"/></svg>
+        Resize
+      </button>
+      <div class="tb-divider"></div>
+      <button class="tb-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M3 17V7l9-4 9 4v10l-9 4-9-4Z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg>
+        Preview
+      </button>
+      <button class="tb-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        Version history
+      </button>
+    </div>
+
+    <div class="topbar-right">
+      <div class="avatar-stack">
+        <div class="avatar">YR</div>
+        <div class="avatar a2">DM</div>
+        <div class="avatar a3">KP</div>
+      </div>
+      <button class="btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M5 3l14 9-14 9V3z"/></svg>
+        Present
+      </button>
+      <button class="btn">Share</button>
+      <button class="btn primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>
+        Export
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- LEFT RAIL -->
+    <nav class="rail">
+      <button class="rail-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h18M3 12h18M3 17h18"/></svg>
+        Layout
+      </button>
+      <button class="rail-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4zM4 12h16M12 4v16"/></svg>
+        Elements
+      </button>
+      <button class="rail-btn active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h10M4 17h16"/></svg>
+        Text
+      </button>
+      <button class="rail-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="m3 17 5-4 4 3 4-5 5 6"/></svg>
+        Uploads
+      </button>
+      <button class="rail-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l3 6 6 1-4.5 4 1 6L12 17l-5.5 3 1-6L3 10l6-1z"/></svg>
+        Brand
+      </button>
+      <div style="flex:1"></div>
+      <button class="rail-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v6M12 17v6M4.2 4.2l4.2 4.2M15.6 15.6l4.2 4.2M1 12h6M17 12h6M4.2 19.8l4.2-4.2M15.6 8.4l4.2-4.2"/></svg>
+        Settings
+      </button>
+    </nav>
+
+    <!-- SECONDARY PANEL (active tool's content) -->
+    <section class="panel2" aria-label="Text options">
+      <h3>Text</h3>
+      <div class="p2-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input placeholder="Search text styles" />
+      </div>
+      <div>
+        <div class="p2-group-title"><span>Text presets</span></div>
+        <div class="p2-samples">
+          <button class="p2-sample">
+            <div class="s1" style="font-size:17px;">Add a heading</div>
+            <div class="s2">Display · 72 pt</div>
+          </button>
+          <button class="p2-sample">
+            <div class="s1" style="font-size:13px; font-weight:600;">Add a subheading</div>
+            <div class="s2">Sans · 26 pt</div>
+          </button>
+          <button class="p2-sample">
+            <div class="s1" style="font-size:11px; font-weight:500;">Add body text</div>
+            <div class="s2">Sans · 16 pt</div>
+          </button>
+          <button class="p2-sample">
+            <div class="s1" style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.12em;">LABEL TEXT</div>
+            <div class="s2">Mono · 12 pt</div>
+          </button>
+        </div>
+      </div>
+      <div>
+        <div class="p2-group-title"><span>Brand styles</span><a href="#">See all</a></div>
+        <div class="p2-chips">
+          <span class="p2-chip active">All</span>
+          <span class="p2-chip">Headlines</span>
+          <span class="p2-chip">Body</span>
+          <span class="p2-chip">Quotes</span>
+        </div>
+      </div>
+      <div>
+        <div class="p2-group-title"><span>Recent fonts</span></div>
+        <div class="p2-samples" style="grid-template-columns:1fr;">
+          <button class="p2-sample" style="padding:10px 12px;">
+            <div class="s1" style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:16px;letter-spacing:-0.02em;">Northfield Display</div>
+            <div class="s2">Brand · Heading</div>
+          </button>
+          <button class="p2-sample" style="padding:10px 12px;">
+            <div class="s1" style="font-family:'Inter',sans-serif;font-weight:500;font-size:13px;letter-spacing:0;">Inter</div>
+            <div class="s2">Brand · Body</div>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CANVAS -->
+    <section class="canvas-area" id="canvasArea">
+      <div class="scanning-banner" id="scanBanner">
+        <div class="spinner"></div>
+        <span id="scanBannerText">Analyzing design against Northfield Coffee brand kit…</span>
+      </div>
+      <div class="canvas-chrome">
+        <div class="canvas-meta">
+          <span class="pill">Instagram Post · 1080 × 1350</span>
+          <span>Page 1 of 1</span>
+        </div>
+        <div class="canvas-wrap">
+          <div class="canvas-scale" id="canvasScale">
+            <div class="post" id="post">
+              <div class="post-bg-photo"></div>
+
+              <div class="post-logo" id="postLogo">
+                <span class="logo-mark-nf">N</span>
+                <span>NORTHFIELD</span>
+              </div>
+
+              <div class="post-panel">
+                <div class="post-eyebrow">SPRING · 2026</div>
+                <h1 class="post-heading" id="postHeading">Single-origin<br/>from the cloud&nbsp;forest.</h1>
+                <p class="post-subheading" id="postSubheading">
+                  Freshly roasted Ethiopian Yirgacheffe — now available at all neighborhood cafés.
+                </p>
+              </div>
+
+              <div class="post-footer">
+                <span class="handle">@NORTHFIELDCOFFEE</span>
+                <span class="date">APR 22 — MAY 14</span>
+              </div>
+
+              <!-- Violation overlays, absolutely placed -->
+              <div class="violation-overlay" id="ovHeading"   style="top: 856px; left: 126px; width: 828px; height: 162px;">
+                <div class="violation-badge">1</div>
+              </div>
+              <div class="violation-overlay" id="ovSubheading" style="top: 1022px; left: 126px; width: 828px; height: 92px;">
+                <div class="violation-badge">2</div>
+              </div>
+              <div class="violation-overlay severe" id="ovLogo" style="top: 46px; left: 46px; width: 244px; height: 60px;">
+                <div class="violation-badge">3</div>
+              </div>
+
+              <div class="scan-sweep"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating zoom chip -->
+      <div class="canvas-zoom">
+        <button id="zoomOut">−</button>
+        <span class="zoom-val" id="zoomVal">52%</span>
+        <button id="zoomIn">+</button>
+      </div>
+    </section>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <button class="sidebar-collapse" id="sidebarCollapse" title="Collapse panel">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m9 6 6 6-6 6"/></svg>
+      </button>
+      <div class="sidebar-tabs">
+        <div class="sb-tab">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l3 6 6 1-4.5 4 1 6L12 17l-5.5 3 1-6L3 10l6-1z"/></svg>
+          Brand Kit
+        </div>
+        <div class="sb-tab active bg-tab">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l8 4v6c0 5-3.5 8-8 8s-8-3-8-8V7l8-4Z"/><path d="m9 12 2 2 4-4"/></svg>
+          Brand Guardian
+          <span class="pip" id="tabPip">3</span>
+        </div>
+        <div class="sb-tab">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10z"/></svg>
+          Comments
+        </div>
+      </div>
+
+      <div class="sidebar-body">
+
+        <!-- Pre-scan top -->
+        <div class="bg-header only-prescan">
+          <div class="bg-shield">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l8 4v6c0 5-3.5 8-8 8s-8-3-8-8V7l8-4Z"/></svg>
+          </div>
+          <div>
+            <div class="bg-title">Brand Guardian</div>
+            <div class="bg-subtitle">Auto-check designs against your brand kit</div>
+          </div>
+        </div>
+
+        <!-- Brand kit summary (always visible up top) -->
+        <div class="kit-card only-prescan">
+          <h4>Northfield Coffee · Brand Kit</h4>
+          <div class="kit-row">
+            <span>Colors</span>
+            <div class="kit-swatches">
+              <div class="kit-swatch" style="background: var(--nf-espresso)" title="Espresso #3B2516"></div>
+              <div class="kit-swatch" style="background: var(--nf-terracotta)" title="Terracotta #C2512E"></div>
+              <div class="kit-swatch" style="background: var(--nf-butter)" title="Butter #E9C46A"></div>
+              <div class="kit-swatch" style="background: var(--nf-forest)" title="Forest #2E5D3E"></div>
+              <div class="kit-swatch" style="background: var(--nf-cream); border:1px solid var(--ink-200)" title="Cream #F3E7D3"></div>
+            </div>
+          </div>
+          <div class="kit-row">
+            <span>Approved fonts</span>
+            <span class="kit-fonts" style="font-size:11.5px;color:var(--ink-600)">Northfield Display · Inter</span>
+          </div>
+          <div class="kit-row">
+            <span>Logo</span>
+            <div class="kit-logo">N</div>
+          </div>
+        </div>
+
+        <!-- Run card -->
+        <div class="run-card only-prescan" id="runCard">
+          <div class="big-shield">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3l8 4v6c0 5-3.5 8-8 8s-8-3-8-8V7l8-4Z"/><path d="m9 12 2 2 4-4"/></svg>
+          </div>
+          <h3>Run a brand check</h3>
+          <p>We'll scan typography, color, logo usage, and spacing against the Northfield Coffee brand kit.</p>
+          <button class="run-btn" id="runBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="16" height="16"><path d="M21 21l-4.3-4.3M11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14z"/></svg>
+            <span id="runBtnLabel">Run Brand Check</span>
+          </button>
+          <div class="scan-progress hidden" id="scanProgress"><div class="scan-progress-bar" id="scanBar"></div></div>
+          <div class="scan-step" id="scanStep"></div>
+        </div>
+
+        <!-- Post-scan body -->
+        <div class="post-scan-body" id="postScanBody">
+
+          <div class="score-block">
+            <div class="score-ring-wrap">
+              <svg class="score-ring" width="92" height="92" viewBox="0 0 92 92">
+                <circle class="track" cx="46" cy="46" r="38"/>
+                <circle class="bar" id="scoreBar" cx="46" cy="46" r="38"
+                        stroke-dasharray="238.76" stroke-dashoffset="238.76"/>
+              </svg>
+              <div class="score-num">
+                <div class="n" id="scoreNum">0</div>
+                <div class="d">/ 100</div>
+              </div>
+            </div>
+            <div class="score-text">
+              <div class="score-label">Brand Score</div>
+              <div class="score-headline" id="scoreHeadline">Needs attention</div>
+              <div class="score-sub" id="scoreSub">3 issues found</div>
+            </div>
+          </div>
+
+          <div class="filter-row">
+            <div class="chip active">All <span id="chipAll">3</span></div>
+            <div class="chip"><span class="dot bad"></span>Critical <span id="chipBad">1</span></div>
+            <div class="chip"><span class="dot warn"></span>Warnings <span id="chipWarn">2</span></div>
+          </div>
+
+          <div class="violations" id="violations">
+
+            <!-- Violation 1: Typography -->
+            <div class="v-card" data-v="heading" data-sev="warn" data-state="open">
+              <div class="v-head" onclick="focusViolation('heading')">
+                <div class="v-icon warn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V5h16v2M9 5v14M15 19h-6"/></svg>
+                </div>
+                <div class="v-body">
+                  <div class="v-top"><span class="v-kind">Typography</span><span class="v-sev warn">Warning</span></div>
+                  <div class="v-title">Heading uses wrong font</div>
+                  <div class="v-desc">Heading is set in <code>Roboto Bold</code> — brand heading font is <code>Northfield Display</code> Semibold.</div>
+                </div>
+                <button class="v-eye" title="Highlight on canvas" onclick="event.stopPropagation();focusViolation('heading')">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+
+              <!-- Diff preview (shown when user clicks Fix) -->
+              <div class="diff-card hidden">
+                <div class="diff-title">Before → After</div>
+                <div class="diff-grid">
+                  <div class="diff-side">
+                    <span class="lbl">Current</span>
+                    <div class="diff-sample" style="font-family: Roboto, sans-serif; font-weight: 900; font-size: 18px;">Single-origin</div>
+                  </div>
+                  <div class="diff-arrow">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                  </div>
+                  <div class="diff-side">
+                    <span class="lbl">Fixed</span>
+                    <div class="diff-sample" style="font-family: 'Plus Jakarta Sans'; font-weight: 800; font-size: 18px; letter-spacing:-0.02em;">Single-origin</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="v-actions">
+                <button class="btn primary" onclick="startFix('heading')">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M12 2l2.4 6.8L22 10l-6 4 2 8-6-4-6 4 2-8-6-4 7.6-1.2L12 2z"/></svg>
+                  Fix
+                </button>
+                <button class="btn ghost" onclick="dismissViolation('heading')">Dismiss</button>
+                <button class="btn ghost" style="margin-left:auto;padding: 0 8px;" title="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg></button>
+              </div>
+            </div>
+
+            <!-- Violation 2: Color -->
+            <div class="v-card" data-v="color" data-sev="warn" data-state="open">
+              <div class="v-head" onclick="focusViolation('color')">
+                <div class="v-icon warn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="8" cy="10" r="1.5" fill="currentColor"/><circle cx="16" cy="10" r="1.5" fill="currentColor"/><circle cx="12" cy="16" r="1.5" fill="currentColor"/></svg>
+                </div>
+                <div class="v-body">
+                  <div class="v-top"><span class="v-kind">Color</span><span class="v-sev warn">Warning</span></div>
+                  <div class="v-title">Subheading color off-brand</div>
+                  <div class="v-desc">Uses <code>#3B82F6</code> — closest brand color is Espresso <code>#3B2516</code>.</div>
+                </div>
+                <button class="v-eye" onclick="event.stopPropagation();focusViolation('color')">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+
+              <div class="diff-card hidden">
+                <div class="diff-title">Before → After</div>
+                <div class="diff-grid">
+                  <div class="diff-side">
+                    <span class="lbl">Current</span>
+                    <div class="diff-color-chip"><span class="sw" style="background:#3B82F6"></span>#3B82F6</div>
+                  </div>
+                  <div class="diff-arrow">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                  </div>
+                  <div class="diff-side">
+                    <span class="lbl">Fixed</span>
+                    <div class="diff-color-chip"><span class="sw" style="background:var(--nf-espresso)"></span>#3B2516</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="v-actions">
+                <button class="btn primary" onclick="startFix('color')">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M12 2l2.4 6.8L22 10l-6 4 2 8-6-4-6 4 2-8-6-4 7.6-1.2L12 2z"/></svg>
+                  Fix
+                </button>
+                <button class="btn ghost" onclick="dismissViolation('color')">Dismiss</button>
+                <button class="btn ghost" style="margin-left:auto;padding:0 8px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg></button>
+              </div>
+            </div>
+
+            <!-- Violation 3: Logo -->
+            <div class="v-card" data-v="logo" data-sev="bad" data-state="open">
+              <div class="v-head" onclick="focusViolation('logo')">
+                <div class="v-icon bad">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>
+                </div>
+                <div class="v-body">
+                  <div class="v-top"><span class="v-kind">Logo placement</span><span class="v-sev bad">Critical</span></div>
+                  <div class="v-title">Insufficient clear space</div>
+                  <div class="v-desc">Logo is placed on a dark, high-contrast photo without the required protective plate or 0.5× clear space.</div>
+                </div>
+                <button class="v-eye" onclick="event.stopPropagation();focusViolation('logo')">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+
+              <div class="diff-card hidden">
+                <div class="diff-title">Before → After</div>
+                <div class="diff-grid">
+                  <div class="diff-side" style="padding:6px;background:#2a1810;">
+                    <span class="lbl" style="color:#fff9">Current</span>
+                    <div style="font-family:'Plus Jakarta Sans';font-weight:800;color:#FAF4E8;font-size:12px;">◉ NORTHFIELD</div>
+                  </div>
+                  <div class="diff-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+                  <div class="diff-side" style="padding:6px;background:#2a1810;">
+                    <span class="lbl" style="color:#fff9">Fixed</span>
+                    <div style="background:#FAF4E8;color:var(--nf-espresso);padding:4px 8px;border-radius:5px;font-family:'Plus Jakarta Sans';font-weight:800;font-size:12px;display:inline-block;">◉ NORTHFIELD</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="v-actions">
+                <button class="btn primary" onclick="startFix('logo')">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M12 2l2.4 6.8L22 10l-6 4 2 8-6-4-6 4 2-8-6-4 7.6-1.2L12 2z"/></svg>
+                  Fix
+                </button>
+                <button class="btn ghost" onclick="dismissViolation('logo')">Dismiss</button>
+                <button class="btn ghost" style="margin-left:auto;padding:0 8px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg></button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+      <div class="sidebar-footer">
+        <button class="footer-submit disabled" id="submitBtn" onclick="submitApproval()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="16" height="16"><path d="M12 3l8 4v6c0 5-3.5 8-8 8s-8-3-8-8V7l8-4Z"/><path d="m9 12 2 2 4-4"/></svg>
+          <span id="submitLabel">Resolve issues to submit</span>
+        </button>
+        <div class="approver-preview">
+          <div class="mini-shield"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m5 12 4 4 10-10"/></svg></div>
+          <div>
+            <strong style="color:var(--ink-800)">Approver sees:</strong>
+            <span id="approverSummary">Compliance <span id="approverScore">91</span>/100 · <span id="approverFixed">2</span> issues resolved · <span id="approverSkipped">1</span> acknowledged</span>
+          </div>
+        </div>
+
+        <div class="submitted-state">
+          <div class="stamp">
+            <div class="stamp-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" width="16" height="16"><path d="m5 12 4 4 10-10"/></svg>
+            </div>
+            <div class="stamp-text">
+              <div class="t1">Submitted for approval</div>
+              <div class="t2">Routed to Dana M. · Brand Lead · just now</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast-wrap">
+  <div class="toast" id="toast">
+    <div class="toast-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" width="18" height="18"><path d="m5 12 4 4 10-10"/></svg>
+    </div>
+    <div class="toast-text">
+      <div class="tt-title" id="toastTitle">Submitted for approval</div>
+      <div class="tt-sub" id="toastSub">Dana will review within 24h · Brand Score 91</div>
+    </div>
+  </div>
+</div>
+
+<!-- Tweaks -->
+<div class="tweaks" id="tweaksPanel">
+  <h4>Tweaks</h4>
+  <div class="tweak-row">
+    <label>Accent</label>
+    <div class="tweak-swatches" id="tweakAccents">
+      <div class="tw-sw active" data-color="#5B4BE1" style="background:#5B4BE1"></div>
+      <div class="tw-sw" data-color="#2563EB" style="background:#2563EB"></div>
+      <div class="tw-sw" data-color="#0D1137" style="background:#0D1137"></div>
+      <div class="tw-sw" data-color="#00A896" style="background:#00A896"></div>
+      <div class="tw-sw" data-color="#E85D3A" style="background:#E85D3A"></div>
+    </div>
+  </div>
+  <div class="tweak-row">
+    <label>Sidebar width</label>
+    <input type="range" id="tweakWidth" min="340" max="440" step="10" value="380" />
+  </div>
+  <div class="tweak-row">
+    <label>Ring size</label>
+    <input type="range" id="tweakRing" min="72" max="128" step="4" value="92" />
+  </div>
+  <div class="tweak-row">
+    <label>Severity palette</label>
+    <select id="tweakSev">
+      <option value="default">Default (red / amber / green)</option>
+      <option value="muted">Muted (rose / ochre / sage)</option>
+      <option value="bold">Bold (crimson / orange / emerald)</option>
+    </select>
+  </div>
+</div>
+
+<script>
+/* -------------------------------------------------------
+ *  STATE
+ * ----------------------------------------------------- */
+const S = {
+  phase: 'prescan',          // prescan | scanning | scanned | approved
+  fixed:    { heading: false, color: false, logo: false },
+  dismissed:{ heading: false, color: false, logo: false },
+  activeDiff: null,
+  score: 0,
+};
+
+const app = document.getElementById('app');
+const body = document.body;
+
+function setPhase(p) {
+  S.phase = p;
+  body.className = `state-${p}`;
+}
+
+/* -------------------------------------------------------
+ *  SCAN FLOW (Screen 1 → Screen 2)
+ * ----------------------------------------------------- */
+const runBtn = document.getElementById('runBtn');
+const runBtnLabel = document.getElementById('runBtnLabel');
+const scanProgress = document.getElementById('scanProgress');
+const scanBar = document.getElementById('scanBar');
+const scanStep = document.getElementById('scanStep');
+const scanBanner = document.getElementById('scanBanner');
+const scanBannerText = document.getElementById('scanBannerText');
+const post = document.getElementById('post');
+
+runBtn.addEventListener('click', startScan);
+
+const scanMessages = [
+  'Reading brand kit…',
+  'Checking typography…',
+  'Sampling colors…',
+  'Analyzing logo placement…',
+  'Compiling report…'
+];
+
+function startScan() {
+  setPhase('scanning');
+  runBtn.disabled = true;
+  runBtnLabel.textContent = 'Scanning…';
+  scanProgress.classList.remove('hidden');
+  scanBanner.classList.add('visible');
+  post.classList.add('scanning');
+
+  // Animate progress
+  requestAnimationFrame(() => { scanBar.style.width = '100%'; });
+
+  // Step through messages
+  let i = 0;
+  scanStep.textContent = '> ' + scanMessages[i];
+  scanBannerText.textContent = scanMessages[i];
+  const stepTimer = setInterval(() => {
+    i++;
+    if (i >= scanMessages.length) { clearInterval(stepTimer); return; }
+    scanStep.textContent = '> ' + scanMessages[i];
+    scanBannerText.textContent = scanMessages[i];
+  }, 320);
+
+  // After scan completes
+  setTimeout(() => {
+    clearInterval(stepTimer);
+    post.classList.remove('scanning');
+    scanBanner.classList.remove('visible');
+    setPhase('scanned');
+    revealViolations();
+    setScore(58);
+    updateStatus();
+  }, 1700);
+}
+
+function revealViolations() {
+  ['ovHeading', 'ovSubheading', 'ovLogo'].forEach((id, idx) => {
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      el.classList.add('visible');
+      if (idx === 2) el.classList.add('pulsing'); // the critical one pulses
+    }, idx * 120);
+  });
+}
+
+/* -------------------------------------------------------
+ *  SCORE RING
+ * ----------------------------------------------------- */
+const CIRC = 2 * Math.PI * 38; // 238.76
+const scoreBar = document.getElementById('scoreBar');
+const scoreNum = document.getElementById('scoreNum');
+const scoreHeadline = document.getElementById('scoreHeadline');
+const scoreSub = document.getElementById('scoreSub');
+
+function setScore(target) {
+  const start = S.score;
+  const delta = target - start;
+  const duration = 900;
+  const t0 = performance.now();
+  function tick(now) {
+    const t = Math.min(1, (now - t0) / duration);
+    const eased = 1 - Math.pow(1 - t, 3);
+    const val = Math.round(start + delta * eased);
+    S.score = val;
+    scoreNum.textContent = val;
+    const offset = CIRC * (1 - val / 100);
+    scoreBar.setAttribute('stroke-dashoffset', offset);
+    const color = val >= 85 ? 'var(--ok-500)' : val >= 60 ? 'var(--warn-500)' : 'var(--bad-500)';
+    scoreBar.setAttribute('stroke', color.replace('var(--ok-500)', '#2BB87A').replace('var(--warn-500)', '#E69413').replace('var(--bad-500)','#E0455A'));
+    if (t < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  // Labels
+  if (target >= 85) { scoreHeadline.textContent = 'Approval ready'; }
+  else if (target >= 60) { scoreHeadline.textContent = 'Close to brand'; }
+  else { scoreHeadline.textContent = 'Needs attention'; }
+}
+
+/* -------------------------------------------------------
+ *  FIX FLOW (with before/after diff confirmation)
+ * ----------------------------------------------------- */
+function startFix(key) {
+  const card = document.querySelector(`.v-card[data-v="${key}"]`);
+  if (!card || card.dataset.state !== 'open') return;
+
+  // If diff already visible, confirming applies
+  if (S.activeDiff === key) {
+    applyFix(key);
+    return;
+  }
+
+  // Close any other active diff
+  document.querySelectorAll('.v-card').forEach(c => {
+    if (c !== card) closeDiff(c);
+  });
+
+  // Open diff
+  const diff = card.querySelector('.diff-card');
+  diff.classList.remove('hidden');
+  card.classList.add('active');
+  S.activeDiff = key;
+
+  // Swap Fix button to Apply / Cancel
+  const actions = card.querySelector('.v-actions');
+  actions.innerHTML = `
+    <button class="btn primary" onclick="applyFix('${key}')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" width="12" height="12"><path d="m5 12 4 4 10-10"/></svg>
+      Apply fix
+    </button>
+    <button class="btn ghost" onclick="cancelFix('${key}')">Cancel</button>
+  `;
+
+  // Scroll element into view & pulse on canvas
+  focusViolation(key, {silent: true});
+}
+
+function closeDiff(card) {
+  const diff = card.querySelector('.diff-card');
+  if (diff) diff.classList.add('hidden');
+  card.classList.remove('active');
+}
+
+function cancelFix(key) {
+  const card = document.querySelector(`.v-card[data-v="${key}"]`);
+  closeDiff(card);
+  S.activeDiff = null;
+  restoreActions(card, key);
+}
+
+function restoreActions(card, key) {
+  const actions = card.querySelector('.v-actions');
+  actions.innerHTML = `
+    <button class="btn primary" onclick="startFix('${key}')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M12 2l2.4 6.8L22 10l-6 4 2 8-6-4-6 4 2-8-6-4 7.6-1.2L12 2z"/></svg>
+      Fix
+    </button>
+    <button class="btn ghost" onclick="dismissViolation('${key}')">Dismiss</button>
+    <button class="btn ghost" style="margin-left:auto;padding:0 8px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg></button>
+  `;
+}
+
+function applyFix(key) {
+  const card = document.querySelector(`.v-card[data-v="${key}"]`);
+  if (!card || card.dataset.state !== 'open') return;
+
+  // Visual change on canvas
+  if (key === 'heading') {
+    document.getElementById('postHeading').classList.add('fixed');
+  } else if (key === 'color') {
+    document.getElementById('postSubheading').classList.add('fixed');
+  } else if (key === 'logo') {
+    document.getElementById('postLogo').classList.add('fixed');
+    // Reposition overlay to new logo size after morph completes
+    setTimeout(() => positionOverlays(), 450);
+  }
+
+  // Hide overlay
+  const ovMap = { heading: 'ovHeading', color: 'ovSubheading', logo: 'ovLogo' };
+  const ov = document.getElementById(ovMap[key]);
+  ov.classList.remove('visible', 'pulsing');
+
+  // Update card to fixed state
+  S.fixed[key] = true;
+  card.dataset.state = 'fixed';
+  card.dataset.sev = 'ok';
+  card.classList.add('collapsed');
+  card.classList.remove('active');
+  closeDiff(card);
+  S.activeDiff = null;
+
+  // Re-render card header
+  const icon = card.querySelector('.v-icon');
+  icon.className = 'v-icon ok';
+  icon.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="m5 12 4 4 10-10"/></svg>`;
+  card.querySelector('.v-sev').className = 'v-sev ok';
+  card.querySelector('.v-sev').textContent = 'Fixed';
+  card.querySelector('.v-actions').innerHTML = `<button class="btn ghost" onclick="undoFix('${key}')">Undo</button>`;
+
+  // Recompute score
+  updateStatus();
+}
+
+function undoFix(key) {
+  const card = document.querySelector(`.v-card[data-v="${key}"]`);
+  S.fixed[key] = false;
+  card.dataset.state = 'open';
+  card.classList.remove('collapsed');
+
+  if (key === 'heading') document.getElementById('postHeading').classList.remove('fixed');
+  if (key === 'color')   document.getElementById('postSubheading').classList.remove('fixed');
+  if (key === 'logo') {
+    document.getElementById('postLogo').classList.remove('fixed');
+    setTimeout(() => positionOverlays(), 450);
+  }
+
+  const ovMap = { heading: 'ovHeading', color: 'ovSubheading', logo: 'ovLogo' };
+  document.getElementById(ovMap[key]).classList.add('visible');
+
+  // Reset severity icon
+  const sev = key === 'logo' ? 'bad' : 'warn';
+  card.dataset.sev = sev;
+  const icon = card.querySelector('.v-icon');
+  icon.className = 'v-icon ' + sev;
+  if (key === 'heading') icon.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V5h16v2M9 5v14M15 19h-6"/></svg>`;
+  if (key === 'color') icon.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>`;
+  if (key === 'logo') icon.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>`;
+
+  card.querySelector('.v-sev').className = 'v-sev ' + sev;
+  card.querySelector('.v-sev').textContent = sev === 'bad' ? 'Critical' : 'Warning';
+  restoreActions(card, key);
+
+  updateStatus();
+}
+
+function dismissViolation(key) {
+  const card = document.querySelector(`.v-card[data-v="${key}"]`);
+  if (!card) return;
+
+  S.dismissed[key] = true;
+  card.dataset.state = 'dismissed';
+  card.classList.add('collapsed');
+
+  const ovMap = { heading: 'ovHeading', color: 'ovSubheading', logo: 'ovLogo' };
+  document.getElementById(ovMap[key]).classList.remove('visible', 'pulsing');
+
+  const icon = card.querySelector('.v-icon');
+  icon.className = 'v-icon skip';
+  icon.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg>`;
+  card.querySelector('.v-sev').className = 'v-sev skip';
+  card.querySelector('.v-sev').textContent = 'Skipped';
+  card.querySelector('.v-actions').innerHTML = `<button class="btn ghost" onclick="restoreDismissed('${key}')">Restore</button>`;
+
+  updateStatus();
+}
+
+function restoreDismissed(key) {
+  const card = document.querySelector(`.v-card[data-v="${key}"]`);
+  S.dismissed[key] = false;
+  card.dataset.state = 'open';
+  card.classList.remove('collapsed');
+
+  const ovMap = { heading: 'ovHeading', color: 'ovSubheading', logo: 'ovLogo' };
+  document.getElementById(ovMap[key]).classList.add('visible');
+  if (key === 'logo') document.getElementById(ovMap[key]).classList.add('pulsing');
+
+  const sev = key === 'logo' ? 'bad' : 'warn';
+  card.dataset.sev = sev;
+  const icon = card.querySelector('.v-icon');
+  icon.className = 'v-icon ' + sev;
+  if (key === 'heading') icon.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V5h16v2M9 5v14M15 19h-6"/></svg>`;
+  if (key === 'color') icon.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>`;
+  if (key === 'logo') icon.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>`;
+  card.querySelector('.v-sev').className = 'v-sev ' + sev;
+  card.querySelector('.v-sev').textContent = sev === 'bad' ? 'Critical' : 'Warning';
+  restoreActions(card, key);
+
+  updateStatus();
+}
+
+/* -------------------------------------------------------
+ *  STATUS + SCORE RECALC
+ * ----------------------------------------------------- */
+const scoreWeights = { heading: 14, color: 14, logo: 20 }; // open warnings cost these
+const BASE_ALL_GOOD = 100;
+
+function updateStatus() {
+  let score = BASE_ALL_GOOD;
+  let open = 0, fixed = 0, skipped = 0;
+  ['heading','color','logo'].forEach(k => {
+    if (S.fixed[k])      fixed++;
+    else if (S.dismissed[k]) {
+      skipped++;
+      // Dismissed issues still lightly reduce score (acknowledged but not fixed)
+      score -= Math.round(scoreWeights[k] * 0.3);
+    } else {
+      open++;
+      score -= scoreWeights[k];
+    }
+  });
+  setScore(score);
+
+  // Score sub text
+  const parts = [];
+  if (fixed)   parts.push(`${fixed} fixed`);
+  if (skipped) parts.push(`${skipped} dismissed`);
+  if (open)    parts.push(`${open} ${open===1?'issue':'issues'} to resolve`);
+  scoreSub.textContent = parts.join(' · ') || 'All clear';
+
+  // Tab pip
+  const pip = document.getElementById('tabPip');
+  if (open > 0) { pip.style.display = 'inline-block'; pip.textContent = open; }
+  else { pip.style.display = 'none'; }
+
+  // Chip counts
+  const bad = ['logo'].filter(k => !S.fixed[k] && !S.dismissed[k]).length;
+  const warn = ['heading','color'].filter(k => !S.fixed[k] && !S.dismissed[k]).length;
+  document.getElementById('chipAll').textContent = open;
+  document.getElementById('chipBad').textContent = bad;
+  document.getElementById('chipWarn').textContent = warn;
+
+  // Submit button
+  const submitBtn = document.getElementById('submitBtn');
+  const submitLabel = document.getElementById('submitLabel');
+  if (open === 0) {
+    submitBtn.classList.remove('disabled');
+    submitLabel.textContent = 'Submit for Approval';
+  } else {
+    submitBtn.classList.add('disabled');
+    submitLabel.textContent = `Resolve ${open} ${open===1?'issue':'issues'} to submit`;
+  }
+
+  // Approver preview
+  document.getElementById('approverScore').textContent = score;
+  document.getElementById('approverFixed').textContent = fixed;
+  document.getElementById('approverSkipped').textContent = skipped;
+}
+
+/* -------------------------------------------------------
+ *  FOCUS A VIOLATION (highlight on canvas)
+ * ----------------------------------------------------- */
+function focusViolation(key) {
+  const ovMap = { heading: 'ovHeading', color: 'ovSubheading', logo: 'ovLogo' };
+  const ov = document.getElementById(ovMap[key]);
+  if (!ov) return;
+
+  document.querySelectorAll('.violation-overlay').forEach(o => o.classList.remove('pulsing'));
+  ov.classList.add('visible', 'pulsing');
+  // Small ripple
+  ov.animate([
+    { transform: 'scale(1.0)', boxShadow: '0 0 0 0 rgba(91,75,225,0.4)' },
+    { transform: 'scale(1.02)', boxShadow: '0 0 0 12px rgba(91,75,225,0.0)' },
+    { transform: 'scale(1.0)', boxShadow: '0 0 0 0 rgba(91,75,225,0.0)' }
+  ], { duration: 700, easing: 'ease-out' });
+}
+
+/* -------------------------------------------------------
+ *  SUBMIT FOR APPROVAL
+ * ----------------------------------------------------- */
+function submitApproval() {
+  const open = ['heading','color','logo'].filter(k => !S.fixed[k] && !S.dismissed[k]).length;
+  if (open > 0) return;
+
+  setPhase('approved');
+  // Reveal submit post-state via class
+  body.classList.add('state-approved');
+  body.classList.remove('state-scanned');
+  const fixed = Object.values(S.fixed).filter(Boolean).length;
+  const skipped = Object.values(S.dismissed).filter(Boolean).length;
+
+  showToast(
+    `Submitted for approval`,
+    `Dana will review within 24h · Brand Score ${S.score} · ${fixed} fixed · ${skipped} acknowledged`
+  );
+}
+
+function showToast(title, sub) {
+  document.getElementById('toastTitle').textContent = title;
+  document.getElementById('toastSub').textContent = sub;
+  const t = document.getElementById('toast');
+  t.classList.add('visible');
+  setTimeout(() => t.classList.remove('visible'), 4500);
+}
+
+/* -------------------------------------------------------
+ *  ZOOM
+ * ----------------------------------------------------- */
+let zoom = 0.52;
+const canvasScale = document.getElementById('canvasScale');
+const zoomVal = document.getElementById('zoomVal');
+function setZoom(z) {
+  zoom = Math.max(0.28, Math.min(1.2, z));
+  canvasScale.style.setProperty('--canvas-scale', zoom);
+  canvasScale.style.transform = `scale(${zoom})`;
+  zoomVal.textContent = Math.round(zoom * 100) + '%';
+}
+document.getElementById('zoomIn').addEventListener('click', () => setZoom(zoom + 0.08));
+document.getElementById('zoomOut').addEventListener('click', () => setZoom(zoom - 0.08));
+setZoom(zoom);
+
+/* Sidebar collapse */
+document.getElementById('sidebarCollapse').addEventListener('click', () => {
+  document.querySelector('.main').classList.toggle('sidebar-collapsed');
+  setTimeout(() => { if (typeof positionOverlays === 'function') positionOverlays(); }, 260);
+});
+
+/* -------------------------------------------------------
+ *  TWEAKS
+ * ----------------------------------------------------- */
+const tweaksPanel = document.getElementById('tweaksPanel');
+let tweaks = { ...TWEAK_DEFAULTS };
+
+function applyTweaks() {
+  document.documentElement.style.setProperty('--accent', tweaks.accent);
+  // Update derived shades (simple approach)
+  const rootStyle = document.documentElement.style;
+  rootStyle.setProperty('--accent-600', shade(tweaks.accent, -0.14));
+  rootStyle.setProperty('--accent-500', tweaks.accent);
+  rootStyle.setProperty('--accent-200', mixWithWhite(tweaks.accent, 0.68));
+  rootStyle.setProperty('--accent-100', mixWithWhite(tweaks.accent, 0.88));
+  rootStyle.setProperty('--accent-50',  mixWithWhite(tweaks.accent, 0.95));
+
+  // Sidebar width
+  document.querySelector('.main').style.setProperty('--sidebar-w', tweaks.sidebarWidth + 'px');
+
+  // Ring size
+  const r = tweaks.ringSize;
+  document.querySelector('.score-ring').setAttribute('width', r);
+  document.querySelector('.score-ring').setAttribute('height', r);
+  document.querySelector('.score-ring-wrap').style.width = r + 'px';
+  document.querySelector('.score-ring-wrap').style.height = r + 'px';
+
+  // Severity scheme
+  const schemes = {
+    default: { bad: '#E0455A', warn: '#E69413', ok: '#2BB87A' },
+    muted:   { bad: '#B8556D', warn: '#C08A3A', ok: '#5A8F6F' },
+    bold:    { bad: '#DC2626', warn: '#F97316', ok: '#059669' }
+  };
+  const sv = schemes[tweaks.severityScheme] || schemes.default;
+  rootStyle.setProperty('--bad-500', sv.bad);
+  rootStyle.setProperty('--warn-500', sv.warn);
+  rootStyle.setProperty('--ok-500', sv.ok);
+}
+
+function hexToRgb(h) {
+  h = h.replace('#','');
+  return [parseInt(h.slice(0,2),16), parseInt(h.slice(2,4),16), parseInt(h.slice(4,6),16)];
+}
+function rgbToHex(r,g,b) {
+  return '#' + [r,g,b].map(x => Math.max(0,Math.min(255,Math.round(x))).toString(16).padStart(2,'0')).join('');
+}
+function shade(hex, amt) {
+  const [r,g,b] = hexToRgb(hex);
+  return rgbToHex(r + 255*amt, g + 255*amt, b + 255*amt);
+}
+function mixWithWhite(hex, p) {
+  const [r,g,b] = hexToRgb(hex);
+  return rgbToHex(r + (255-r)*p, g + (255-g)*p, b + (255-b)*p);
+}
+
+document.getElementById('tweakAccents').addEventListener('click', e => {
+  const sw = e.target.closest('.tw-sw'); if (!sw) return;
+  document.querySelectorAll('#tweakAccents .tw-sw').forEach(s => s.classList.remove('active'));
+  sw.classList.add('active');
+  tweaks.accent = sw.dataset.color;
+  applyTweaks(); persistTweaks();
+});
+document.getElementById('tweakWidth').addEventListener('input', e => {
+  tweaks.sidebarWidth = parseInt(e.target.value, 10);
+  applyTweaks(); persistTweaks();
+});
+document.getElementById('tweakRing').addEventListener('input', e => {
+  tweaks.ringSize = parseInt(e.target.value, 10);
+  applyTweaks(); persistTweaks();
+});
+document.getElementById('tweakSev').addEventListener('change', e => {
+  tweaks.severityScheme = e.target.value;
+  applyTweaks(); persistTweaks();
+});
+
+function persistTweaks() {
+  window.parent.postMessage({ type: '__edit_mode_set_keys', edits: tweaks }, '*');
+}
+
+/* -------------------------------------------------------
+ *  Edit-mode host protocol
+ * ----------------------------------------------------- */
+window.addEventListener('message', e => {
+  if (!e.data) return;
+  if (e.data.type === '__activate_edit_mode') tweaksPanel.classList.add('visible');
+  if (e.data.type === '__deactivate_edit_mode') tweaksPanel.classList.remove('visible');
+});
+window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+
+/* -------------------------------------------------------
+ *  INIT
+ * ----------------------------------------------------- */
+applyTweaks();
+setPhase('prescan');
+
+// Auto-position violation overlays based on actual element rects (robust across zooms/fonts)
+function positionOverlays() {
+  const post = document.getElementById('post');
+  const pr = post.getBoundingClientRect();
+  const scale = pr.width / 1080;
+  if (!scale) return;
+  const place = (ovId, el, pad = 12) => {
+    const r = el.getBoundingClientRect();
+    const ov = document.getElementById(ovId);
+    ov.style.top    = ((r.top - pr.top) / scale - pad) + 'px';
+    ov.style.left   = ((r.left - pr.left) / scale - pad) + 'px';
+    ov.style.width  = (r.width / scale + pad * 2) + 'px';
+    ov.style.height = (r.height / scale + pad * 2) + 'px';
+  };
+  place('ovHeading', document.getElementById('postHeading'), 14);
+  place('ovSubheading', document.getElementById('postSubheading'), 10);
+  place('ovLogo', document.getElementById('postLogo'), 10);
+}
+// Run after fonts load + on any zoom change
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(positionOverlays);
+setTimeout(positionOverlays, 100);
+setTimeout(positionOverlays, 600);
+const _origSetZoom = setZoom;
+window.setZoom = function(z){ _origSetZoom(z); setTimeout(positionOverlays, 50); };
+document.getElementById('zoomIn').addEventListener('click', () => setTimeout(positionOverlays, 50));
+document.getElementById('zoomOut').addEventListener('click', () => setTimeout(positionOverlays, 50));
+
+// Clicking violation overlays = focus card
+document.querySelectorAll('.violation-overlay').forEach((ov) => {
+  const key = ov.id === 'ovHeading' ? 'heading' : ov.id === 'ovSubheading' ? 'color' : 'logo';
+  ov.style.pointerEvents = 'auto';
+  ov.addEventListener('click', () => {
+    document.querySelector(`.v-card[data-v="${key}"]`).scrollIntoView({block:'nearest', behavior:'smooth'});
+    document.querySelector(`.v-card[data-v="${key}"]`).classList.add('active');
+    setTimeout(() => document.querySelector(`.v-card[data-v="${key}"]`).classList.remove('active'), 1200);
+  });
+});
+</script>
+
+</body>
+</html>
