@@ -41,7 +41,7 @@ No build step required — open the HTML file directly in a browser.
 | Deliverable             | Link        |
 | ----------------------- | ----------- |
 | Presentation Deck (PDF) | [Link]      |
-| Interactive Prototype   | [This repo] |
+| Interactive Prototype   | [Live demo](https://shreyas-30.github.io/brand-guardian/) |
 
 ## Built With
 
