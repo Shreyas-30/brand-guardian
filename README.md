@@ -40,7 +40,7 @@ No build step required — open the HTML file directly in a browser.
 
 | Deliverable             | Link        |
 | ----------------------- | ----------- |
-| Presentation Deck (PDF) | [Link]      |
+| Presentation Deck (PDF) | [Eulerity_Canva_Deck.pdf](Eulerity_Canva_Deck.pdf) |
 | Interactive Prototype   | [Live demo](https://shreyas-30.github.io/brand-guardian/) |
 
 ## Built With
